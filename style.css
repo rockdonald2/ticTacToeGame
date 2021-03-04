@@ -1,0 +1,468 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500&display=swap");
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 11px;
+}
+@media only screen and (max-width: 1400px) {
+  html {
+    font-size: 10px;
+  }
+}
+@media only screen and (max-width: 900px) {
+  html {
+    font-size: 7px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  html {
+    font-size: 6px;
+  }
+}
+
+body {
+  box-sizing: border-box;
+  font-family: "Josefin Sans", sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  padding: 5rem;
+  background-color: #ffffff;
+  position: relative;
+  color: #3c4043;
+  overflow: hidden;
+}
+
+.header--title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  font-weight: 400;
+  color: #e62649;
+}
+.header--title svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 1.25rem;
+  stroke: rgba(230, 38, 73, 0.5);
+}
+
+.container {
+  margin-top: 5rem;
+}
+@media only screen and (max-width: 800px) {
+  .container {
+    margin-top: 12.5rem;
+  }
+}
+@media only screen and (max-width: 350px) {
+  .container {
+    margin-top: 10rem;
+  }
+}
+
+.board {
+  margin: 0 auto;
+  width: 50rem;
+  height: 50rem;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+}
+@media only screen and (max-width: 350px) {
+  .board {
+    height: 40rem;
+    width: 40rem;
+  }
+}
+.board--cell {
+  border: 1px solid rgba(60, 64, 67, 0.5);
+  color: #e62649;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12rem;
+  cursor: crosshair;
+  transition: all 0.25s;
+}
+.board--cell:nth-of-type(1) {
+  border-top-left-radius: 4px;
+}
+.board--cell:nth-of-type(3) {
+  border-top-right-radius: 4px;
+}
+.board--cell:nth-of-type(7) {
+  border-bottom-left-radius: 4px;
+}
+.board--cell:nth-of-type(9) {
+  border-bottom-right-radius: 4px;
+}
+.board--cell:focus, .board--cell:hover {
+  border: 2px solid #e62649;
+}
+.board--cell.occupied {
+  cursor: not-allowed;
+}
+
+.btn {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: #e62649;
+  position: absolute;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+@media only screen and (max-width: 800px) {
+  .btn {
+    width: 7.5rem;
+    height: 7.5rem;
+  }
+}
+.btn:hover, .btn:focus {
+  outline: none;
+}
+.btn:hover svg, .btn:focus svg {
+  width: 2.875rem;
+  height: 2.875rem;
+}
+@media only screen and (max-width: 800px) {
+  .btn:hover svg, .btn:focus svg {
+    width: 3.125rem;
+    height: 3.125rem;
+  }
+}
+.btn svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  stroke: #fff;
+  transition: all 0.25s;
+}
+@media only screen and (max-width: 800px) {
+  .btn svg {
+    width: 2.875rem;
+    height: 2.875rem;
+  }
+}
+.btn--menu, .btn--restart {
+  bottom: 8.5%;
+}
+@media only screen and (max-width: 1400px) {
+  .btn--menu, .btn--restart {
+    bottom: 15%;
+  }
+}
+.btn--menu:hover, .btn--menu:focus, .btn--restart:hover, .btn--restart:focus {
+  width: 15rem;
+  border-radius: 15rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+}
+.btn--menu__text, .btn--restart__text {
+  font-size: 1.6rem;
+  color: #fff;
+}
+.btn--menu__text.hidden, .btn--restart__text.hidden {
+  display: none;
+}
+.btn--menu {
+  left: 25%;
+}
+@media only screen and (max-width: 1400px) {
+  .btn--menu {
+    left: 15%;
+  }
+}
+.btn--menu__text {
+  margin-left: 1.25rem;
+}
+.btn--restart {
+  right: 25%;
+}
+@media only screen and (max-width: 1400px) {
+  .btn--restart {
+    right: 15%;
+  }
+}
+.btn--restart__text {
+  margin-right: 1.25rem;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(60, 64, 67, 0.35);
+  z-index: -1;
+  opacity: 0;
+  backdrop-filter: blur(6px);
+  transition: all 0.25s;
+}
+.overlay.show {
+  opacity: 1;
+  z-index: 50;
+}
+
+.modal {
+  position: fixed;
+  z-index: -1;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.85);
+  width: 50rem;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+  padding: 2.5rem;
+  border-radius: 10px;
+  transition: all 0.25s;
+  opacity: 0;
+}
+.modal.show {
+  opacity: 1;
+  z-index: 75;
+  transform: translateX(-50%) scale(1);
+}
+@media only screen and (max-width: 450px) {
+  .modal.show {
+    transform: translateX(-50%) scale(1.035);
+  }
+}
+.modal--title {
+  font-size: 3.2rem;
+  color: #e62649;
+}
+@media only screen and (max-width: 450px) {
+  .modal--title {
+    font-size: 3.4rem;
+  }
+}
+.modal fieldset {
+  margin-top: 2.5rem;
+  border: none;
+  width: 80%;
+}
+@media only screen and (max-width: 450px) {
+  .modal fieldset {
+    width: 90%;
+  }
+}
+.modal--form__player h3, .modal--form__player label, .modal--form__computer h3, .modal--form__computer label, .modal--form__difficulty h3, .modal--form__difficulty label {
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+  font-weight: 400;
+  cursor: default;
+}
+@media only screen and (max-width: 450px) {
+  .modal--form__player h3, .modal--form__player label, .modal--form__computer h3, .modal--form__computer label, .modal--form__difficulty h3, .modal--form__difficulty label {
+    font-size: 2.4rem;
+  }
+}
+.modal--form__player {
+  display: flex;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.modal--form__player div {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal--form__player div label {
+  font-size: 4.8rem;
+  background: rgba(60, 64, 67, 0.05);
+  backdrop-filter: blur(10px);
+  width: 6.25rem;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+}
+.modal--form__player div label:not(:last-of-type) {
+  margin-right: 2.5rem;
+}
+@media only screen and (max-width: 450px) {
+  .modal--form__player div label {
+    font-size: 5rem;
+  }
+}
+.modal--form__player div input[type=radio] {
+  display: none;
+}
+.modal--form__player div input[type=radio]:checked + label {
+  background: #e62649;
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+}
+.modal--form__computer {
+  margin-top: 2.5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+@media only screen and (max-width: 450px) {
+  .modal--form__computer {
+    margin-top: 3.75rem;
+  }
+}
+.modal--form__computer input[type=checkbox] {
+  display: none;
+}
+.modal--form__computer input[type=checkbox]:checked + .modal--form__computer--slider {
+  background-color: #e62649;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+}
+.modal--form__computer input[type=checkbox]:checked + .modal--form__computer--slider::before {
+  left: calc(10rem - 2.25rem - 5px);
+  background-color: #ffffff;
+}
+@media only screen and (max-width: 450px) {
+  .modal--form__computer input[type=checkbox]:checked + .modal--form__computer--slider::before {
+    left: calc(12rem - 2.5rem - 5px);
+  }
+}
+.modal--form__computer--slider {
+  display: block;
+  width: 10rem;
+  height: 3rem;
+  background-color: rgba(60, 64, 67, 0.05);
+  border-radius: 15rem;
+  position: relative;
+  transition: all 0.25s;
+  cursor: pointer;
+}
+@media only screen and (max-width: 450px) {
+  .modal--form__computer--slider {
+    width: 12rem;
+    height: 4rem;
+  }
+}
+.modal--form__computer--slider::before {
+  content: "";
+  display: block;
+  background-color: #e62649;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  transition: all 0.25s;
+}
+@media only screen and (max-width: 450px) {
+  .modal--form__computer--slider::before {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+.modal--form__computer--btn {
+  display: block;
+  margin: 2.5rem auto 0 auto;
+  padding: 1.0625rem 2.5rem;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(60, 64, 67, 0.05);
+  color: #e62649;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.25s;
+}
+@media only screen and (max-width: 450px) {
+  .modal--form__computer--btn {
+    margin-top: 5rem;
+  }
+}
+.modal--form__computer--btn:hover, .modal--form__computer--btn:focus {
+  outline: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+  background-color: #e62649;
+  color: #ffffff;
+}
+.modal--form__difficulty {
+  margin-top: 2.5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+@media only screen and (max-width: 450px) {
+  .modal--form__difficulty {
+    margin-top: 3.75rem;
+  }
+}
+.modal--form__difficulty select {
+  border: none;
+  background: rgba(60, 64, 67, 0.05);
+  padding: 1.0625rem 2.125rem;
+  border-bottom: 2px solid #e62649;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 1.4rem;
+}
+@media only screen and (max-width: 450px) {
+  .modal--form__difficulty select {
+    font-size: 1.8rem;
+  }
+}
+.modal--form__difficulty select option {
+  font-size: 1.2rem;
+}
+@media only screen and (max-width: 450px) {
+  .modal--form__difficulty select option {
+    font-size: 1.6rem;
+  }
+}
+
+.display {
+  position: fixed;
+  bottom: 8.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.4rem;
+  break-inside: avoid;
+  text-align: center;
+}
+@media only screen and (max-width: 1400px) {
+  .display {
+    bottom: 15%;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .display {
+    bottom: 25%;
+  }
+}
+.display #currentTurn {
+  color: #e62649;
+  font-weight: bold;
+  font-size: 3.2rem;
+}
+@media only screen and (max-width: 450px) {
+  .display #currentTurn {
+    display: block;
+    margin-top: 0.625rem;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

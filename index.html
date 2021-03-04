@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Tic Tac Toe</title>
+	<link rel="stylesheet" href="style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+<div class="modal" id="modal">
+	<h2 class="modal--title">Menu</h2>
+	<fieldset>
+		<form action="" class="modal--form">
+			<div class="modal--form__player">
+				<h3>Player</h3>
+				<div>
+					<input type="radio" id="cross" name="player" checked>
+					<label for="cross">x</label>
+					<input type="radio" id="circle" name="player">
+					<label for="circle">o</label>
+				</div>
+			</div>
+			<div class="modal--form__computer">
+				<h3>AI Opponent</h3>
+				<label for="aiOpponent">
+					<input type="checkbox" id="aiOpponent">
+					<span class="modal--form__computer--slider"></span>
+				</label>
+			</div>
+			<div class="modal--form__difficulty">
+				<label for="difficulty">Difficulty</label>
+				<select id="difficulty" disabled>
+					<option value="easy">Easy</option>
+					<option value="medium" selected>Medium</option>
+					<option value="hard">Hard</option>
+					<option value="unbeatable">Unbeatable</option>
+				</select>
+			</div>
+			<button type="submit" class="modal--form__computer--btn">Set Settings</button>
+		</form>
+	</fieldset>
+</div>
+
+<header class="header">
+	<h1 class="header--title">
+		<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path></svg> Tic-Tac-Toe
+	</h1>
+</header>
+
+<main class="container">
+	<div class="board">
+		<div class="board--cell"></div>
+		<div class="board--cell"></div>
+		<div class="board--cell"></div>
+		<div class="board--cell"></div>
+		<div class="board--cell"></div>
+		<div class="board--cell"></div>
+		<div class="board--cell"></div>
+		<div class="board--cell"></div>
+		<div class="board--cell"></div>
+	</div>
+</main>
+
+<button type="button" class="btn btn--menu" id="btnMenu">
+	<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg> <span class="btn--menu__text hidden">Menu</span>
+</button>
+<p class="display">Current turn: <span id="currentTurn">x</span></p>
+<button type="button" class="btn btn--restart" id="btnRestart">
+	<span class="btn--restart__text hidden">Restart</span> <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+</button>
+
+<script src="script.js"></script>
+</body>
+</html>

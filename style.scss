@@ -1,0 +1,506 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500&display=swap');
+
+$size-l: 5rem;
+$size-m: $size-l / 2;
+$size-sm: $size-l / 4;
+
+$color-red-main: #e62649;
+$color-grey-secondary: #3c4043;
+$color-bg: #ffffff;
+
+@mixin flexCenterize {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@mixin flexColumnCenterize {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+@mixin transition {
+    transition: all .25s;
+}
+@mixin layeredShadow {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.07),
+    0 2px 4px rgba(0,0,0,0.07),
+    0 4px 8px rgba(0,0,0,0.07),
+    0 8px 16px rgba(0,0,0,0.07),
+    0 16px 32px rgba(0,0,0,0.07),
+    0 32px 64px rgba(0,0,0,0.07);
+}
+@mixin respond($bp) {
+    @media only screen and (max-width: $bp) {
+        @content;
+    }
+}
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 11px; // 1rem
+
+    @include respond(1400px) {
+        font-size: 10px;
+    }
+
+    @include respond(900px) {
+        font-size: 7px;
+    }
+
+    @include respond(400px) {
+        font-size: 6px;
+    }
+}
+
+body {
+    box-sizing: border-box;
+    font-family: "Josefin Sans", sans-serif;
+    width: 100%;
+    min-height: 100vh;
+    padding: $size-l;
+    background-color: $color-bg;
+    position: relative;
+    color: $color-grey-secondary;
+    overflow: hidden;
+}
+
+.header {
+    &--title {
+        @include flexCenterize;
+        font-size: 4rem;
+        font-weight: 400;
+        color: $color-red-main;
+
+        svg {
+            width: $size-m;
+            height: $size-m;
+            margin-right: $size-sm;
+            stroke: rgba($color-red-main, .5);
+        }
+    }
+}
+
+.container {
+    margin-top: $size-l;
+
+    @include respond(800px) {
+        margin-top: $size-l * 2.5;
+    }
+
+    @include respond(350px) {
+        margin-top: $size-l * 2;
+    }
+}
+
+.board {
+    margin: 0 auto;
+    width: 50rem;
+    height: 50rem;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+
+    @include respond(350px) {
+        height: 40rem;
+        width: 40rem;
+    }
+
+    &--cell {
+        border: 1px solid rgba($color-grey-secondary, .5);
+
+        &:nth-of-type(1) {
+            border-top-left-radius: 4px;
+        }
+
+        &:nth-of-type(3) {
+            border-top-right-radius: 4px;
+        }
+
+        &:nth-of-type(7) {
+            border-bottom-left-radius: 4px;
+        }
+
+        &:nth-of-type(9) {
+            border-bottom-right-radius: 4px;
+        }
+
+        color: $color-red-main;
+        @include flexCenterize;
+        font-size: 12rem;
+        cursor: crosshair;
+        @include transition;
+
+        &:focus, &:hover {
+            border: 2px solid $color-red-main;
+        }
+
+        &.occupied {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.btn {
+    width: $size-l;
+    height: $size-l;
+    border-radius: 50%;
+    @include flexCenterize;
+    border: none;
+    background-color: $color-red-main;
+    position: absolute;
+    cursor: pointer;
+    @include transition;
+
+    @include respond(800px) {
+        width: $size-l * 1.5;
+        height: $size-l * 1.5;
+    }
+
+    &:hover, &:focus {
+        outline: none;
+
+        svg {
+            width: $size-m * 1.15;
+            height: $size-m * 1.15;
+
+            @include respond(800px) {
+                width: $size-m * 1.25;
+                height: $size-m * 1.25;
+            }
+        }
+    }
+
+    svg {
+        width: $size-m;
+        height: $size-m;
+        stroke: #fff;
+        @include transition;
+
+        @include respond(800px) {
+            width: $size-m * 1.15;
+            height: $size-m * 1.15;
+        }
+    }
+
+    &--menu, &--restart {
+        bottom: 8.5%;
+
+        @include respond(1400px) {
+            bottom: 15%;
+        }
+
+        &:hover, &:focus {
+            width: 15rem;
+            border-radius: 15rem;
+            @include layeredShadow;
+        }
+
+        &__text {
+            font-size: 1.6rem;
+            color: #fff;
+
+            &.hidden {
+                display: none;
+            }
+        }
+    }
+
+    &--menu {
+        left: 25%;
+
+        @include respond(1400px) {
+            left: 15%;
+        }
+
+        &__text {
+            margin-left: $size-sm;
+        }
+    }
+
+    &--restart {
+        right: 25%;
+
+        @include respond(1400px) {
+            right: 15%;
+        }
+
+        &__text {
+            margin-right: $size-sm;
+        }
+    }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color-grey-secondary, .35);
+    z-index: -1;
+    opacity: 0;
+    backdrop-filter: blur(6px);
+    @include transition;
+
+    &.show {
+        opacity: 1;
+        z-index: 50;
+    }
+}
+
+.modal {
+    position: fixed;
+    z-index: -1;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.85);
+    width: 50rem;
+    background-color: $color-bg;
+    @include flexColumnCenterize;
+    @include layeredShadow;
+    padding: $size-m;
+    border-radius: 10px;
+    @include transition;
+    opacity: 0;
+
+    &.show {
+        opacity: 1;
+        z-index: 75;
+        transform: translateX(-50%) scale(1);
+
+        @include respond(450px) {
+            transform: translateX(-50%) scale(1.035);
+        }
+    }
+
+    &--title {
+        font-size: 3.2rem;
+        color: $color-red-main;
+
+        @include respond(450px) {
+            font-size: 3.4rem;
+        }
+
+    }
+
+    fieldset {
+        margin-top: $size-m;
+        border: none;
+        width: 80%;
+
+        @include respond(450px) {
+            width: 90%;
+        }
+    }
+
+    &--form {
+        &__player, &__computer, &__difficulty {
+            h3, label {
+                font-size: 2rem;
+                margin-bottom: $size-sm;
+                font-weight: 400;
+                cursor: default;
+
+                @include respond(450px) {
+                    font-size: 2.4rem;
+                }
+            }
+        }
+
+        &__player {
+            display: flex;
+            @include flexColumnCenterize;
+
+            div {
+                width: 50%;
+                @include flexCenterize;
+
+                label {
+                    font-size: 4.8rem;
+                    background: rgba($color-grey-secondary, .05);
+                    backdrop-filter: blur(10px);
+                    width: $size-l * 1.25;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    @include flexCenterize;
+                    @include transition;
+
+                    &:not(:last-of-type) {
+                        margin-right: $size-m;
+                    }
+
+                    @include respond(450px) {
+                        font-size: 5rem;
+                    }
+                }
+
+                input[type="radio"] {
+                    display: none;
+
+                    &:checked {
+                        & + label {
+                            background: $color-red-main;
+                            color: $color-bg;
+                            @include layeredShadow;
+                        }
+                    }
+                }
+            }
+        }
+
+        &__computer {
+            margin-top: $size-m;
+            @include flexColumnCenterize;
+
+            @include respond(450px) {
+                margin-top: $size-m * 1.5;
+            }
+
+            input[type="checkbox"] {
+                display: none;
+
+                &:checked + .modal--form__computer--slider {
+                    background-color: $color-red-main;
+                    @include layeredShadow;
+
+                    &::before {
+                        left: calc(10rem - 2.25rem - 5px);
+                        background-color: $color-bg;
+
+                        @include respond(450px) {
+                            left: calc(12rem - 2.5rem - 5px);
+                        }
+                    }
+                }
+            }
+
+            &--slider {
+                display: block;
+                width: 10rem;
+                height: 3rem;
+                background-color: rgba($color-grey-secondary, .05);
+                border-radius: 15rem;
+                position: relative;
+                @include transition;
+                cursor: pointer;
+
+                @include respond(450px) {
+                    width: 12rem;
+                    height: 4rem;
+                }
+
+                &::before {
+                    content: "";
+                    display: block;
+                    background-color: $color-red-main;
+                    width: 2.25rem;
+                    height: 2.25rem;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 50%;
+                    left: 5px;
+                    transform: translateY(-50%);
+                    @include transition;
+
+                    @include respond(450px) {
+                        width: 2.5rem;
+                        height: 2.5rem;
+                    }
+                }
+            }
+
+            &--btn {
+                display: block;
+                margin: $size-m auto 0 auto;
+                padding: $size-sm * 0.85 $size-m;
+                border: none;
+                border-radius: 5px;
+                background-color: rgba($color-grey-secondary, .05);
+                color: $color-red-main;
+                cursor: pointer;
+                font-weight: bold;
+                @include transition;
+
+                @include respond(450px) {
+                    margin-top: $size-l;
+                }
+
+                &:hover, &:focus {
+                    outline: none;
+                    @include layeredShadow;
+                    background-color: $color-red-main;
+                    color: $color-bg;
+                }
+            }
+        }
+
+        &__difficulty {
+            margin-top: $size-m;
+            @include flexColumnCenterize;
+
+            @include respond(450px) {
+                margin-top: $size-m * 1.5;
+            }
+
+            select {
+                border: none;
+                background: rgba($color-grey-secondary, .05);
+                padding: $size-sm * 0.85 $size-m * 0.85;
+                border-bottom: 2px solid $color-red-main;
+                border-radius: 5px;
+                font-family: inherit;
+                font-size: 1.4rem;
+
+                @include respond(450px) {
+                    font-size: 1.8rem;
+                }
+
+                option {
+                    font-size: 1.2rem;
+
+                    @include respond(450px) {
+                        font-size: 1.6rem;
+                    }
+
+                }
+            }
+        }
+    }
+}
+
+.display {
+    position: fixed;
+    bottom: 8.5%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.4rem;
+    break-inside: avoid;
+    text-align: center;
+
+    @include respond(1400px) {
+        bottom: 15%;
+    }
+
+    @include respond(650px) {
+        bottom: 25%;
+    }
+
+    #currentTurn {
+        color: $color-red-main;
+        font-weight: bold;
+        font-size: 3.2rem;
+
+        @include respond(450px) {
+            display: block;
+            margin-top: $size-sm * 0.5;
+        }
+    }
+}
